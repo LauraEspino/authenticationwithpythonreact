@@ -1,25 +1,34 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext} from "react";
 import envFile from "../../../../docs/assets/env-file.png"
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios"
 
 const Dark = ({children}) => <span className="bg-dark text-white px-1 rounded">{children}</span>;
 
-export const NewAccount = () => {
-	const [email, setEmail] = useState({ email: "" });
-	const [password, setPassword] = useState({ password: "" });
 
+
+export const Login = () => {
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const { store, actions } = useContext(Context);
+	const navigate = useNavigate();
 
-	function handleSubmit(e) {
-		e.preventDefault();
-		console.log(full_name, email, password);
-		actions.createAccount(email,password);
+	async function handleSubmit(e) {
+		e.preventDefault()
+		console.log(email, password)
+		let logged= await actions.login(email, password)
+		if (logged){
+			navigate('https://glowing-disco-66j9q69p5xj3x66r-3000.app.github.dev/')
+		}
+		setEmail("")
+		setPassword("")
 	}
 
 return(
-	<div className="mt-5 pt-5 w-50 mx-auto">
-		<h2>Login</h2>
+	<div className="mt-2 pt-5 w-50 mx-auto">
+		<h2  className="text-center mt-5">Login</h2>
 		<div className="container">
 			<div>
 				<h1 className="text-center mt-5">Enter to your account</h1>
@@ -43,12 +52,12 @@ return(
 						/>
 					</div>
 					
-					<button type="submit" className="btn btn-primary form-control">
-						save
+					<button type="submit" className="btn btn-primary form-control mt-2 mb-3">
+						Log in
 					</button>
-					<Link className="mt-3 w-100 text-center" to="/">
-						or go Back
-					</Link>
+					<button className="btn btn-secondary form-control" onClick={e => navigate('/')}>
+						go Back
+					</button>
 				</form>
             </div>
         </div>
