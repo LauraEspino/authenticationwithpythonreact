@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import envFile from "../../../../docs/assets/env-file.png";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
@@ -19,14 +19,14 @@ export const Signup = () => {
   async function handleSubmit(e) {
     e.preventDefault();
     console.log(email, password);
-    actions.signup(email, password);
-	let signedin= await actions.login(email, password)
+    // actions.signup(email, password);
+	let signedin= await actions.signup(email, password)
 		if (signedin){
-			navigate('https://glowing-disco-66j9q69p5xj3x66r-3000.app.github.dev/')
+			navigate('/')
 		}
-		setEmail("")
-		setPassword("")
+  
   }
+ 
 
   return (
     <div className="mt-2 pt-5 w-50 mx-auto">

@@ -3,20 +3,11 @@ import axios from 'axios';
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			token:""
+			
+				"token": "",
+			message:null
 		},
-		// getMessage: async () => {
-		// 		try{
-		// 			// fetching data from the backend
-		// 			const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-		// 			const data = await resp.json()
-		// 			setStore({ message: data.message })
-		// 			// don't forget to return something, that is how the async resolves
-		// 			return data;
-		// 		}catch(error){
-		// 			console.log("Error loading message from backend", error)
-		// 		}
-		// 	},
+
 		actions: {
 			// getMessage: async () => {
 			// 	try{
@@ -30,10 +21,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// 		console.log("Error loading message from backend", error)
 			// 	}
 			// },
-			
 			login: async(email, password) => {
 				try{
-					let data= await axios.post('https://glowing-disco-66j9q69p5xj3x66r-3001.app.github.dev/api/login',{
+					const data= await axios.post('https://glowing-disco-66j9q69p5xj3x66r-3001.app.github.dev/api/login',{
 					email:email,
 					password:password
 					})
@@ -49,20 +39,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 		},
+		
 		signup: async(email, password) => {
 			try{
-				let data= await axios.post('https://glowing-disco-66j9q69p5xj3x66r-3001.app.github.dev/api/signup',{
+				const data= await axios.post('https://glowing-disco-66j9q69p5xj3x66r-3001.app.github.dev/api/signup',{
 				email:email,
 				password:password
 				})
-				console.log(data)
-				if (data.data.status === 200){
-					actions.login(email,password)
-				}
+				console.log(data);
 				return true
 				
 			}catch(error){
-				console.log(error);
+				// console.log("error");
 				return false
 			}
 
@@ -73,7 +61,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			const config = {
 				headers:{Authorization: `Bearer ${localStorage.getItem("token")}`}
 			}
-			let data = await axios.get("https://symmetrical-parakeet-gjrq5x949jv3r4x-3001.preview.app.github.dev/api/private",config)
+			let data = await axios.get("https://https://glowing-disco-66j9q69p5xj3x66r.github.dev/api/private",config)
 			console.log(data);
 			return true
 		} catch (error) {
@@ -81,12 +69,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			return false
 		}
 	},
+					
 	logOut: () => {
-		if (localStorage.getItem("token") != null){
-			localStorage.removeItem("token")
-		}else{
-			alert("No hay token")
-		}
+		setStore({"token": "" });
+		localStorage.removeItem("token");
+		setStore({ logged: false })
 	},
 }
 }

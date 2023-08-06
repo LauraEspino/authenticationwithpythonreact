@@ -20,10 +20,11 @@ export const Login = () => {
 		console.log(email, password)
 		let logged= await actions.login(email, password)
 		if (logged){
-			navigate('https://glowing-disco-66j9q69p5xj3x66r-3000.app.github.dev/')
+			navigate('/api/private')
 		}
-		setEmail("")
-		setPassword("")
+		
+		// setEmail("")
+		// setPassword("")
 	}
 
 return(

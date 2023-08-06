@@ -21,20 +21,49 @@ api = Blueprint('api', __name__)
 #     return jsonify(response_body), 200
 
 # # create one user
-@api.route('/users', methods=['POST'])
-def create_user():
+# @api.route('/users', methods=['POST'])
+# def create_user():
 
+#     request_body = request.get_json(force=True)
+# # creacion de un registro en la tabla de user
+#     user = User(email=request_body["email"],password=request_body["password"],is_active=request_body[True])
+#     db.session.add(user)
+#     db.session.commit()
+
+#     response_body = {
+#         "msg": "user created",
+#     }
+#        return jsonify(response_body), 200
+    # ENDPOINTS PARA CREACIÓN DE USUARIO
+
+@api.route('/user', methods=['POST'])
+def create_user():
     request_body = request.get_json(force=True)
-# creacion de un registro en la tabla de user
-    user = User(email=request_body["email"],password=request_body["password"],is_active=request_body[True])
+    if 'email' not in request_body or 'password' not in request_body:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    existing_user = User.query.filter_by(
+        email=request_body['email']).first()
+    if existing_user:
+        return jsonify({"error": "User with this email already exists"}), 409
+
+    user = User(email=request_body['email'], password=request_body['password'], is_active = True)
+
     db.session.add(user)
     db.session.commit()
 
     response_body = {
-        "msg": "user created",
+        "results": 'User Created',
+        "user": user.serialize()
     }
 
-    return jsonify(response_body), 200
+    response = jsonify(response_body)
+    # Agregar el encabezado "Access-Control-Allow-Origin" para permitir solicitudes desde cualquier origen (*)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response, 200
+
+ 
 
 
 @api.route("/signup", methods=["POST"])
@@ -96,6 +125,7 @@ def login():
     
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token)
+
 
 #ruta protegida
 # Protect a route with jwt_required, which will kick out requests

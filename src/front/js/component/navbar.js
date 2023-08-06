@@ -8,7 +8,7 @@ export const Navbar = () => {
 
 	function GoPrivate(){
 		if (actions.private()){
-			navigate("/private")
+			navigate("/api/private")
 		}else{
 			alert("You must log in")
 		}
@@ -16,6 +16,8 @@ export const Navbar = () => {
 
 	function CloseSession(){
 		actions.logOut()
+		navigate("/")
+
 	}
 	return (
 		<nav className="navbar navbar-light bg-light">
