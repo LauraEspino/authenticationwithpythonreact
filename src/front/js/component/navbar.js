@@ -15,9 +15,10 @@ export const Navbar = () => {
 	}
 
 	function CloseSession(){
-		actions.logOut()
+		let logged = actions.logOut()
+		if (!logged){
 		navigate("/")
-
+		}
 	}
 	return (
 		<nav className="navbar navbar-light bg-light">
@@ -26,9 +27,9 @@ export const Navbar = () => {
 					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
 				</Link>
 				<div className="ml-auto">
-			
-				<button className="btn btn-dark mx-1" onClick={GoPrivate}>My Profile</button>
-					<button className="btn btn-danger mx-1" onClick={CloseSession}>Cerrar sesión</button>
+				{store.token ? <button className="btn btn-dark mx-1" onClick={GoPrivate}>My Profile</button>:("")}
+				{store.token ? <button className="btn btn-danger mx-1" onClick={CloseSession}>Cerrar sesión</button>:("") 				}
+				
 					<Link to="/">
 						<button className="btn btn-warning"><i className="fa-solid fa-house"></i></button>
 					</Link>

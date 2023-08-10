@@ -20,7 +20,7 @@ export const Login = () => {
 		console.log(email, password)
 		let logged= await actions.login(email, password)
 		if (logged){
-			navigate('/api/private')
+			navigate('/private')
 		}
 		
 		// setEmail("")

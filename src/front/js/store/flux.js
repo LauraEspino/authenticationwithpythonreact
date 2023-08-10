@@ -5,22 +5,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			
 				"token": "",
-			message:null
+				message:null,
+				validate:false
 		},
 
 		actions: {
-			// getMessage: async () => {
-			// 	try{
-			// 		// fetching data from the backend
-			// 		const resp = await fetch(process.env.BACKEND_URL + "/api/hello" , { mode: 'no-cors' })
-			// 		const data = await resp.json()
-			// 		setStore({ message: data.message })
-			// 		// don't forget to return something, that is how the async resolves
-			// 		return data;
-			// 	}catch(error){
-			// 		console.log("Error loading message from backend", error)
-			// 	}
-			// },
+			getMessage: async () => {
+				try{
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/hello" , { mode: 'no-cors' })
+					const data = await resp.json()
+					setStore({ message: data.message })
+					// don't forget to return something, that is how the async resolves
+					return data;
+				}catch(error){
+					console.log("Error loading message from backend", error)
+				}
+			},
 			login: async(email, password) => {
 				try{
 					const data= await axios.post('https://glowing-disco-66j9q69p5xj3x66r-3001.app.github.dev/api/login',{
@@ -47,9 +48,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 				password:password
 				})
 				console.log(data);
-				return true
-				
-			}catch(error){
+				// if (data.data.status === 200){
+				// 	login(email,password)
+				localStorage.setItem("token",data.data.access_token)
+					setStore({token:data.data.access_token})
+					return true
+				}
+			catch(error){
 				// console.log("error");
 				return false
 			}
@@ -58,10 +63,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 	},
 	private: async () => {
 		try {
-			const config = {
+			const getToken = {
 				headers:{Authorization: `Bearer ${localStorage.getItem("token")}`}
 			}
-			let data = await axios.get("https://https://glowing-disco-66j9q69p5xj3x66r.github.dev/api/private",config)
+			let data = await axios.get("https://glowing-disco-66j9q69p5xj3x66r-3001.app.github.dev/api/private",getToken)
 			console.log(data);
 			return true
 		} catch (error) {
@@ -73,8 +78,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 	logOut: () => {
 		setStore({"token": "" });
 		localStorage.removeItem("token");
-		setStore({ logged: false })
+		return false 
 	},
+	
+	// validToken: async () => {
+	// 	let token = localStorage.getItem("token")
+
+	// 	try {
+	// 		//codigo exitoso
+	// 		let data = await axios.get('https://orange-space-guide-rp4x79xxx6rfw7pg-3001.app.github.dev/api/profile',{
+	// 			headers:{
+	// 				"Authorization": `Bearer ${token}`,
+	// 			}
+	// 		})
+	// 		console.log(data);
+	// 		setStore({validate:true})
+	
+	// 		return true;
+	// 	} catch (error) {
+	// 		//manejar los errrores
+	// 		console.log(error);
+	// 		setStore({validate:false})
+	// 		return false;
+	// 	}
+	// },
 }
 }
 };

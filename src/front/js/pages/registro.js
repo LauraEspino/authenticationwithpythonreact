@@ -20,13 +20,12 @@ export const Signup = () => {
     e.preventDefault();
     console.log(email, password);
     // actions.signup(email, password);
-	let signedin= await actions.signup(email, password)
+    let signedin= await actions.signup(email, password)
 		if (signedin){
-			navigate('/')
+			navigate('/private')
 		}
   
   }
- 
 
   return (
     <div className="mt-2 pt-5 w-50 mx-auto">

@@ -12,9 +12,10 @@ export const Home = () => {
 	return (
 		<div className="text-center mt-5">
 			<h1>Welcome</h1>
-			<button className="btn btn-primary me-2 mb-3" onClick={e => navigate('/api/login')}>Log in</button>
+			<button className="btn btn-primary me-2 mb-3" onClick={e => navigate('/login')}>Log in</button>
 			<span>or</span>
-			<button className="btn btn-success ms-2 mb-3" onClick={e => navigate('/api/signup')}>Sign up</button>
+			<button className="btn btn-success ms-2 mb-3" onClick={e => navigate('/signup')}>Sign up</button>
+			
 
 			<p>
 				<img src={rigoImageUrl} />
